@@ -9,6 +9,8 @@ namespace Ambev.DeveloperEvaluation.ORM.Context.PostgreSQL;
 public class PostgreSQLContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Sale> Sales { get; set; }
+    public DbSet<SaleItem> SaleItems { get; set; }
 
     public PostgreSQLContext(DbContextOptions<PostgreSQLContext> options) : base(options)
     {
