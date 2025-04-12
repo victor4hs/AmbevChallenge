@@ -21,6 +21,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.Property(i => i.TotalPrice).IsRequired().HasColumnType("decimal(18, 2)");
             builder.Property(i => i.IsCancelled).IsRequired().HasDefaultValue(false);
             builder.Property(i => i.UnitPrice).IsRequired().HasColumnType("decimal(18, 2)");
+
+            builder.Property<DateTime>("CreatedAt").IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
+            builder.Property<DateTime?>("UpdatedAt");
         }
     }
 }

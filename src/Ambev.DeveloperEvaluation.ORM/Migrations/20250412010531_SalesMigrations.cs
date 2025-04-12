@@ -44,7 +44,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     UnitPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric(5,2)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    IsCancelled = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                    IsCancelled = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
