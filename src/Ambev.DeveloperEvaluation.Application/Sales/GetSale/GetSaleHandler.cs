@@ -44,19 +44,16 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, SaleResult>
     /// </exception>
     public async Task<SaleResult> Handle(GetSaleCommand request, CancellationToken cancellationToken)
     {
-        // Validate the command using the GetSaleValidator
         var validator = new GetSaleValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        // Retrieve the sale from the repository
         var sale = await _salesRepository.GetByIdAsync(request.Id, cancellationToken);
         if (sale == null)
             throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
 
-        // Map the sale entity to the SaleResult object
         return _mapper.Map<SaleResult>(sale);
     }
 }

@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
@@ -6,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 /// <summary>
 /// Response model for GetUser operation
 /// </summary>
-public class GetUserResult : Result<GetUserResult>
+public class GetUserResult
 {
     /// <summary>
     /// The unique identifier of the user

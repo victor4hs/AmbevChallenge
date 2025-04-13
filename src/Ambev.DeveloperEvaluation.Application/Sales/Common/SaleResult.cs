@@ -1,10 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Common;
-using Ambev.DeveloperEvaluation.Domain.Enums;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-
-namespace Ambev.DeveloperEvaluation.Application.Sales.Common;
-
-using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -13,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Common;
 /// <summary>
 /// Represents the response model for a sales operation, containing details about a sale.
 /// </summary>
-public class SaleResult : Result<SaleResult>
+public class SaleResult
 {
     /// <summary>
     /// The unique identifier of the sale.

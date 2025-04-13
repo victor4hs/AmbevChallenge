@@ -1,18 +1,18 @@
 using AutoMapper;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
+namespace Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 /// <summary>
 /// Profile for mapping between Sale entity and CancelSaleResult
 /// </summary>
-public class CancelSaleProfile : Profile
+public class SaleProfile : Profile
 {
     /// <summary>
     /// Initializes the mappings for the CancelSale operation
     /// </summary>
-    public CancelSaleProfile()
+    public SaleProfile()
     {
-        CreateMap<Sale, CancelSaleResult>();
+        CreateMap<Sale, SaleResult>();
     }
 }
