@@ -4,11 +4,26 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>3c58d567-b1d8-4a51-bd36-dbfddb84701b</UserSecretsId>
+	  <UserSecretsId>3c58d567-b1d8-4a51-bd36-dbfddb84701b</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Sales\DeleteSales\**" />
+    <Compile Remove="Features\Sales\ListSales\**" />
+    <Compile Remove="Features\Sales\UpdateSales\**" />
+    <Content Remove="Features\Sales\DeleteSales\**" />
+    <Content Remove="Features\Sales\ListSales\**" />
+    <Content Remove="Features\Sales\UpdateSales\**" />
+    <EmbeddedResource Remove="Features\Sales\DeleteSales\**" />
+    <EmbeddedResource Remove="Features\Sales\ListSales\**" />
+    <EmbeddedResource Remove="Features\Sales\UpdateSales\**" />
+    <None Remove="Features\Sales\DeleteSales\**" />
+    <None Remove="Features\Sales\ListSales\**" />
+    <None Remove="Features\Sales\UpdateSales\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
@@ -22,13 +37,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ambev.DeveloperEvaluation.IoC\Ambev.DeveloperEvaluation.IoC.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Users\GetUser\" />
-    <Folder Include="Features\Users\DeleteUser\" />
-    <Folder Include="Features\Users\ListUsers\" />
-    <Folder Include="Features\Users\UpdateUser\" />
   </ItemGroup>
 
 </Project>
