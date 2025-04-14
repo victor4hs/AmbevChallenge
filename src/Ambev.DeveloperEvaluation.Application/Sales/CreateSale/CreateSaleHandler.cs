@@ -40,20 +40,17 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// </exception>
     public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
     {
-        // Validate the command using the CreateSaleCommandValidator
         var validator = new CreateSaleCommandValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        // Map the command to a Sale entity
         var sale = _mapper.Map<Sale>(command);
 
-        // Create the sale in the repository
-        var createdSale = await _salesRepository.CreateAsync(sale, cancellationToken);
 
-        // Map the created sale entity to the result object
+        var createdSale = await _salesRepository.CreateAsync(sale, cancellationToken);
+        
         return _mapper.Map<CreateSaleResult>(createdSale);
     }
 }
