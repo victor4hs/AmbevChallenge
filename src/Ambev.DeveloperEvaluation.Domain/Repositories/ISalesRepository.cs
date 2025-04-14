@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -24,10 +25,18 @@ public interface ISalesRepository
     Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves a collection of sales based on the specified filtering and sorting criteria.
+    /// </summary>
+    /// <param name="filter">The filtering and sorting criteria for querying sales.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A collection of sales matching the specified criteria.</returns>
+    Task<IEnumerable<Sale>> GetAllAsync(SaleQueryFilter filter, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Updates an existing sale in the repository.
     /// </summary>
     /// <param name="sale">The sale entity with updated information.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>The updated sale entity.</returns>
-    Task<Sale> UpdateSaleAsync(Sale sale, CancellationToken cancellationToken = default);
+    Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 }

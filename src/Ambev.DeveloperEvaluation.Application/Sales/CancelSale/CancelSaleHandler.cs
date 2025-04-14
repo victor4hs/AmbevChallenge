@@ -35,7 +35,7 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, SaleResult>
     /// <returns>The result of the sale cancellation</returns>
     public async Task<SaleResult> Handle(CancelSaleCommand request, CancellationToken cancellationToken)
     {
-        var validator = new CancelSaleValidator();
+        var validator = new CancelSaleCommandValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)

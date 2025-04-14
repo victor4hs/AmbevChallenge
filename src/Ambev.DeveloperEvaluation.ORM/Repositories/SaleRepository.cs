@@ -1,6 +1,8 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using Ambev.DeveloperEvaluation.ORM.Context.PostgreSQL;
+using Ambev.DeveloperEvaluation.ORM.Helper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
@@ -35,6 +37,25 @@ public class SaleRepository : ISalesRepository
     }
 
     /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="queryFilter">The query of the sale.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The sale entity if found, or null otherwise.</returns>
+    public async Task<IEnumerable<Sale>> GetAllAsync(SaleQueryFilter queryFilter, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Sales.AsQueryable();
+
+        query = FilterHelper.CreateFilter(query, queryFilter);
+        query = FilterHelper.ApplySorting(query, queryFilter.SortField, queryFilter.SortOrder);
+        
+        int skip = (queryFilter.PageNumber - 1) * queryFilter.PageSize;
+        query = query.Skip(skip).Take(queryFilter.PageSize);
+
+        return await query.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieves a sale by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the sale.</param>
@@ -51,7 +72,7 @@ public class SaleRepository : ISalesRepository
     /// <param name="sale">The sale entity with updated information.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>The updated sale entity.</returns>
-    public async Task<Sale> UpdateSaleAsync(Sale sale, CancellationToken cancellationToken = default)
+    public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
     {
         _context.Sales.Update(sale);
         await _context.SaveChangesAsync(cancellationToken);

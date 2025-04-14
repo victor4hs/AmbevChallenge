@@ -3,13 +3,15 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
 /// <summary>
 /// Handler for processing <see cref="GetSaleCommand"/> requests.
 /// </summary>
-public class GetSaleHandler : IRequestHandler<GetSaleCommand, SaleResult>
+public class GetAllSaleHandler : IRequestHandler<GetAllSaleCommand, List<SaleResult>>
 {
     private readonly ISalesRepository _salesRepository;
     private readonly IMapper _mapper;
@@ -19,7 +21,7 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, SaleResult>
     /// </summary>
     /// <param name="salesRepository">The sales repository for accessing sale data.</param>
     /// <param name="mapper">The AutoMapper instance for mapping objects.</param>
-    public GetSaleHandler(
+    public GetAllSaleHandler(
         ISalesRepository salesRepository,
         IMapper mapper)
     {
@@ -42,18 +44,14 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, SaleResult>
     /// <exception cref="KeyNotFoundException">
     /// Thrown when the sale with the specified ID is not found.
     /// </exception>
-    public async Task<SaleResult> Handle(GetSaleCommand request, CancellationToken cancellationToken)
+    public async Task<List<SaleResult>> Handle(GetAllSaleCommand request, CancellationToken cancellationToken)
     {
-        var validator = new GetSaleCommandValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        var filter = _mapper.Map<SaleQueryFilter>(request);
 
-        if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
+        var sale = await _salesRepository.GetAllAsync(filter, cancellationToken);
+        if (sale == null || sale.Count() == 0)
+            throw new KeyNotFoundException($"Sale not found for specific filter");
 
-        var sale = await _salesRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (sale == null)
-            throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
-
-        return _mapper.Map<SaleResult>(sale);
+        return _mapper.Map<List<SaleResult>>(sale);
     }
 }

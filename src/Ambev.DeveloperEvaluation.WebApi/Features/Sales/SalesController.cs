@@ -62,6 +62,34 @@ public class SalesController : BaseController
     }
 
     /// <summary>
+    /// Update a Sales
+    /// </summary>
+    /// <param name="request">The Sales update request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The update Sales details</returns>
+    [HttpPut]
+    [ProducesResponseType(typeof(ApiResponseWithData<SaleResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateSale([FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+    {
+        var validator = new UpdateSaleRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<CreateSaleCommand>(request);
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return Created(string.Empty, new ApiResponseWithData<SaleResponse>
+        {
+            Success = true,
+            Message = "Sales update successfully",
+            Data = _mapper.Map<SaleResponse>(response)
+        });
+    }
+
+    /// <summary>
     /// Retrieves a Sales by their ID
     /// </summary>
     /// <param name="id">The unique identifier of the Sales</param>
@@ -94,6 +122,29 @@ public class SalesController : BaseController
     /// <summary>
     /// Retrieves a Sales by their ID
     /// </summary>
+    /// <param name="request">The unique identifier of the Sales</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The Sales details if found</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(ApiResponseWithData<List<SaleResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllSales([FromQuery] GetAllSalesQuery saleQuery, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(saleQuery, cancellationToken);
+
+        return Ok(new ApiResponseWithData<SaleResponse>
+        {
+            Success = true,
+            Message = "Sales retrieved successfully",
+            Data = _mapper.Map<SaleResponse>(response)
+        });
+    }
+
+
+    /// <summary>
+    /// Retrieves a Sales by their ID
+    /// </summary>
     /// <param name="id">The unique identifier of the Sales</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The Sales details if found</returns>
@@ -115,7 +166,7 @@ public class SalesController : BaseController
         return Ok(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
-            Message = "Sales retrieved successfully",
+            Message = "Sales canceled successfully",
             Data = _mapper.Map<SaleResponse>(response)
         });
     }
