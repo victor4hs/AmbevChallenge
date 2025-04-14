@@ -1,4 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,6 +81,41 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Discount = discount;
             TotalPrice = totalPrice;
             IsCancelled = isCancelled;
+        }
+        public ValidationResult Validate()
+        {
+            var validator = new SaleItemValidator();
+            return validator.Validate(this);
+        }
+
+        public void Cancel()
+        {
+            IsCancelled = true;
+        }
+
+        public void SetSaleItem(Guid saleId)
+        {
+            SaleId = saleId;
+            GetDiscountPercentage();
+            CalculatePrices();
+        }
+
+        private void CalculatePrices()
+        {
+            decimal subtotal = UnitPrice * Quantity;
+            decimal discountValue = subtotal * Discount;
+
+            TotalPrice = subtotal - discountValue;
+        }
+
+        private void GetDiscountPercentage()
+        {
+            if (Quantity >= 10 && Quantity <= 20)
+                Discount = 0.20m;
+            else if (Quantity >= 4)
+                Discount = 0.10m;
+            else
+                Discount = 0;
         }
     }
 }

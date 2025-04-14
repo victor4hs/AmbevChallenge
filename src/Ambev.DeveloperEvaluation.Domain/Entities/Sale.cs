@@ -1,4 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 
@@ -84,6 +86,52 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             TotalAmount = totalAmount;
             IsCancelled = isCancelled;
             SaleItems = items;
+        }
+
+        public ValidationResult Validate()
+        {
+            var validator = new SaleValidator();
+            return validator.Validate(this);
+        }
+
+        public void Cancel()
+        {
+            IsCancelled = true;
+            if (SaleItems != null)
+            {
+                foreach (SaleItem item in SaleItems)
+                {
+                    item.Cancel();
+                }
+            }
+        }
+        public ValidationResult SetSale(ICollection<SaleItem> items)
+        {
+            SaleItems = items;
+            GenerateSaleNumber();
+            CalculateTotalAmount();
+            SaleDate = DateTime.Now;
+            return Validate();
+        }
+
+        private void GenerateSaleNumber()
+        {
+            string date = DateTime.UtcNow.ToString("yyyyMMdd");
+            string guid = Guid.NewGuid().ToString().Substring(0, 10).ToUpper();
+            SaleNumber = $"SALE-{date}-{guid}";
+        }
+
+        public void CalculateTotalAmount()
+        {
+            var total = 0m;
+            foreach (var item in SaleItems.Where(x => !x.IsCancelled))
+            {
+                item.SetSaleItem(Id);
+                total += item.TotalPrice;
+            }
+            TotalAmount = total;
+            if (total == 0)
+                Cancel();
         }
     }
 }
