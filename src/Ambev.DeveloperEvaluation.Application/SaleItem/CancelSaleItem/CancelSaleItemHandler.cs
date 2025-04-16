@@ -3,6 +3,7 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Application.SalesItem.Common;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesItem.CancelSaleItem;
 
@@ -13,6 +14,7 @@ public class CancelSaleItemHandler : IRequestHandler<CancelSaleItemCommand, Sale
 {
     private readonly ISalesItemRepository _salesItemRepository;
     private readonly IMapper _mapper;
+    private readonly IPublisher _eventPublisher;
 
     /// <summary>
     /// Initializes a new instance of CancelSaleItemHandler
@@ -21,10 +23,12 @@ public class CancelSaleItemHandler : IRequestHandler<CancelSaleItemCommand, Sale
     /// <param name="mapper">The AutoMapper instance</param>
     public CancelSaleItemHandler(
         ISalesItemRepository salesItemRepository,
-        IMapper mapper)
+        IMapper mapper,
+        IPublisher eventPublisher)
     {
         _salesItemRepository = salesItemRepository;
         _mapper = mapper;
+        _eventPublisher = eventPublisher;
     }
 
     /// <summary>
@@ -50,6 +54,7 @@ public class CancelSaleItemHandler : IRequestHandler<CancelSaleItemCommand, Sale
 
         saleItem.Cancel();
         await _salesItemRepository.UpdateAsync(saleItem, cancellationToken);
+        await _eventPublisher.Publish(new ItemCancelledEvent(saleItem));
 
         return _mapper.Map<SaleItemResult>(saleItem);
     }

@@ -4,6 +4,7 @@ using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
@@ -14,16 +15,18 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, SaleResult>
 {
     private readonly ISalesRepository _salesRepository;
     private readonly IMapper _mapper;
+    private readonly IPublisher _eventPublisher;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UpdateSaleHandler"/> class.
     /// </summary>
     /// <param name="salesRepository">The sales repository for managing sale data.</param>
     /// <param name="mapper">The AutoMapper instance for mapping objects.</param>
-    public UpdateSaleHandler(ISalesRepository salesRepository, IMapper mapper)
+    public UpdateSaleHandler(ISalesRepository salesRepository, IMapper mapper, IPublisher eventPublisher)
     {
         _salesRepository = salesRepository;
         _mapper = mapper;
+        _eventPublisher = eventPublisher;
     }
 
     /// <summary>
@@ -61,6 +64,7 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, SaleResult>
         existingSale.UpdateFrom(sale);
 
         await _salesRepository.UpdateAsync(existingSale, cancellationToken);
+        await _eventPublisher.Publish(new SaleModifiedEvent(sale));
 
         return _mapper.Map<SaleResult>(sale);
     }

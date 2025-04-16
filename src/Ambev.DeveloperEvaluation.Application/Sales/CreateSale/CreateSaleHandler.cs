@@ -3,6 +3,7 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
@@ -13,16 +14,21 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 {
     private readonly ISalesRepository _salesRepository;
     private readonly IMapper _mapper;
+    private readonly IPublisher _eventPublisher;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateSaleHandler"/> class.
     /// </summary>
     /// <param name="salesRepository">The sales repository for managing sale data.</param>
     /// <param name="mapper">The AutoMapper instance for mapping objects.</param>
-    public CreateSaleHandler(ISalesRepository salesRepository, IMapper mapper)
+    public CreateSaleHandler(
+        ISalesRepository salesRepository, 
+        IMapper mapper,
+        IPublisher eventPublisher)
     {
         _salesRepository = salesRepository;
         _mapper = mapper;
+        _eventPublisher = eventPublisher;
     }
 
     /// <summary>
@@ -49,6 +55,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         sale.SetSaleRules();
         sale.CalculateTotalAmount();
         var createdSale = await _salesRepository.CreateAsync(sale, cancellationToken);
+        await _eventPublisher.Publish(new SaleCreatedEvent(sale));
 
         return _mapper.Map<CreateSaleResult>(createdSale);
     }
