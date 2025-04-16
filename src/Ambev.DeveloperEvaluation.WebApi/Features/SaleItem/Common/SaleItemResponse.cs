@@ -1,6 +1,4 @@
-using Ambev.DeveloperEvaluation.Domain.Enums;
-
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesItem.Common;
 
 /// <summary>
 /// API response model representing an individual item in a sale.

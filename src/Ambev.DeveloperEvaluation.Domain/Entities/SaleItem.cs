@@ -22,7 +22,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// The product name associated with this sale item.
         /// </summary>
-        public string ProductName { get; private set; }
+        public string? ProductName { get; private set; }
 
         /// <summary>
         /// Identifier of the product being sold.
@@ -82,6 +82,15 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             TotalPrice = totalPrice;
             IsCancelled = isCancelled;
         }
+        public void UpdateFrom(SaleItem updatedItem)
+        {
+            ProductName = updatedItem.ProductName;
+            ProductId = updatedItem.ProductId;
+            Quantity = updatedItem.Quantity;
+            UnitPrice = updatedItem.UnitPrice;
+            IsCancelled = updatedItem.IsCancelled;
+        }
+
         public ValidationResult Validate()
         {
             var validator = new SaleItemValidator();

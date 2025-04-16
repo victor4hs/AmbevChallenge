@@ -14,6 +14,7 @@ public class InfrastructureModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<DbContext>(provider => provider.GetRequiredService<PostgreSQLContext>());
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ISalesRepository, SaleRepository>();
+        builder.Services.AddScoped<ISalesItemRepository, SaleItemRepository>();
 
     }
 }

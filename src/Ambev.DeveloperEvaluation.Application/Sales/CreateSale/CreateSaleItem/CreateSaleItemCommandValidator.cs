@@ -20,7 +20,8 @@ public class CreateSaleItemCommandValidator : AbstractValidator<CreateSaleItemCo
     /// </remarks>
     public CreateSaleItemCommandValidator()
     {
-        // Ensures that the BranchId is provided.
         RuleFor(sale => sale.Quantity).LessThanOrEqualTo(20).WithMessage("Maximum 20 items per product");
+        RuleFor(sale => sale.UnitPrice).GreaterThanOrEqualTo(0).WithMessage("Unit price must be greater than zero");
+        RuleFor(sale => sale.ProductId).NotEmpty();
     }
 }

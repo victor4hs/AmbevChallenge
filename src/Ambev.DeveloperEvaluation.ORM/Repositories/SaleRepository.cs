@@ -71,14 +71,6 @@ public class SaleRepository : ISalesRepository
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
-    public async Task<Sale?> GetBySaleNumberAsync(string saleNumber, CancellationToken cancellationToken = default)
-    {
-        return await _context.Sales
-            .Include(c => c.SaleItems)
-            .FirstOrDefaultAsync(o => o.SaleNumber == saleNumber, cancellationToken);
-        
-    }
-
     /// <summary>
     /// Updates an existing sale in the database.
     /// </summary>

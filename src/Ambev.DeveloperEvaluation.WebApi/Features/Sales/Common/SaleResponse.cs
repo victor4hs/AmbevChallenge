@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesItem.Common;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
 

@@ -1,8 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -148,6 +146,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             BranchName = updatedSale.BranchName;
             TotalAmount = updatedSale.TotalAmount;
             IsCancelled = updatedSale.IsCancelled;
+        }
+
+        public void UpdateSaleItem(List<SaleItem> saleItems)
+        {
+            SaleItems = saleItems;
         }
     }
 }
