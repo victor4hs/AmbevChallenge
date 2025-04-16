@@ -10,6 +10,7 @@ using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
@@ -79,10 +80,10 @@ public class SalesController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<CreateSaleCommand>(request);
+        var command = _mapper.Map<UpdateSaleCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Created(string.Empty, new ApiResponseWithData<SaleResponse>
+        return Ok(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sales update successfully",
@@ -132,13 +133,21 @@ public class SalesController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllSales([FromQuery] GetAllSalesQuery saleQuery, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(saleQuery, cancellationToken);
+        var validator = new GetAllSaleRequestValidator();
+        var validationResult = await validator.ValidateAsync(saleQuery, cancellationToken);
 
-        return Ok(new ApiResponseWithData<SaleResponse>
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var getAllSaleCommand = new GetAllSaleCommand(saleQuery);
+
+        var response = await _mediator.Send(getAllSaleCommand, cancellationToken);
+
+        return Ok(new ApiResponseWithData<List<SaleResponse>>
         {
             Success = true,
             Message = "Sales retrieved successfully",
-            Data = _mapper.Map<SaleResponse>(response)
+            Data = _mapper.Map<List<SaleResponse>>(response)
         });
     }
 

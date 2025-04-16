@@ -3,7 +3,6 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Common.Security;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
@@ -47,10 +46,10 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
             throw new ValidationException(validationResult.Errors);
 
         var sale = _mapper.Map<Sale>(command);
-
-
+        sale.SetSaleRules();
+        sale.CalculateTotalAmount();
         var createdSale = await _salesRepository.CreateAsync(sale, cancellationToken);
-        
+
         return _mapper.Map<CreateSaleResult>(createdSale);
     }
 }

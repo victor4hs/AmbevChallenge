@@ -18,13 +18,8 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
     /// </remarks>
     public CreateSaleRequestValidator()
     {
-        // Validates each sale item using the CreateSaleItemRequestValidator.
-        RuleForEach(sales => sales.SaleItems).SetValidator(new CreateSaleItemRequestValidator());
-
-        // Ensures that the BranchId is provided.
         RuleFor(sales => sales.BranchId).NotNull();
-
-        // Ensures that the CustomerId is provided.
         RuleFor(sales => sales.CustomerId).NotNull();
+        RuleForEach(sales => sales.SaleItems).SetValidator(new CreateSaleItemRequestValidator());
     }
 }

@@ -19,10 +19,8 @@ public class UpdateSaleCommandValidator : AbstractValidator<UpdateSaleCommand>
     /// </remarks>
     public UpdateSaleCommandValidator()
     {
-        // Ensures that the BranchId is provided.
+        RuleFor(sale => sale.Id).NotEmpty();
         RuleFor(sale => sale.BranchId).NotEmpty();
-
-        // Ensures that the CustomerId is provided.
         RuleFor(sale => sale.CustomerId).NotEmpty();
     }
 }

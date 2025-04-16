@@ -16,7 +16,7 @@ public class UpdateSaleRequestValidator : AbstractValidator<UpdateSaleRequest>
     /// </remarks>
     public UpdateSaleRequestValidator()
     {
-        // Validates each sale item using the UpdateSaleItemRequestValidator.
-        RuleForEach(sales => sales.SaleItems).SetValidator(new UpdateSaleItemRequestValidator());
+        RuleFor(sale => sale.Id).NotEmpty()
+            .WithMessage("Id must be informated.");
     }
 }

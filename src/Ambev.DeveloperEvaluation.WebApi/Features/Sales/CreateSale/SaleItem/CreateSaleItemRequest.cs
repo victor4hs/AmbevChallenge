@@ -20,5 +20,5 @@ public class CreateSaleItemRequest
     /// <summary>
     /// The unit price of the product.
     /// </summary>
-    public decimal UnitPrice { get; private set; }
+    public decimal UnitPrice { get; set; }
 }

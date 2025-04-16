@@ -48,6 +48,9 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, SaleResult>
         if (sale.IsCancelled)
             throw new KeyNotFoundException($"Sale with ID {request.Id} already canceled");
 
+        sale.Cancel();
+        await _salesRepository.UpdateAsync(sale, cancellationToken);
+
         return _mapper.Map<SaleResult>(sale);
     }
 }

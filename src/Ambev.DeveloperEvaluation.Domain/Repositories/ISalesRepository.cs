@@ -25,6 +25,14 @@ public interface ISalesRepository
     Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves a sale by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the sale.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The sale entity if found, or null otherwise.</returns>
+    Task<Sale?> GetBySaleNumberAsync(string saleNumber, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Retrieves a collection of sales based on the specified filtering and sorting criteria.
     /// </summary>
     /// <param name="filter">The filtering and sorting criteria for querying sales.</param>
@@ -38,5 +46,5 @@ public interface ISalesRepository
     /// <param name="sale">The sale entity with updated information.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>The updated sale entity.</returns>
-    Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 }

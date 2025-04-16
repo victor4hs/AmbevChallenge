@@ -40,20 +40,28 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, SaleResult>
     /// </exception>
     public async Task<SaleResult> Handle(UpdateSaleCommand command, CancellationToken cancellationToken)
     {
-        // Validate the command using the UpdateSaleCommandValidator
         var validator = new UpdateSaleCommandValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        // Map the command to a Sale entity
         var sale = _mapper.Map<Sale>(command);
 
-        // Update the sale in the repository
-        var updatedSale = await _salesRepository.UpdateAsync(sale, cancellationToken);
+        var existingSale = await _salesRepository.GetByIdAsync(sale.Id, cancellationToken) 
+            ?? throw new KeyNotFoundException($"Sale with ID {sale.Id} not found");
 
-        // Map the updated sale entity to the result object
-        return _mapper.Map<SaleResult>(updatedSale);
+        sale.CalculateTotalAmount();
+
+        if (sale.IsCancelled)
+        {
+            sale.Cancel();
+        }
+
+        existingSale.UpdateFrom(sale);
+
+        await _salesRepository.UpdateAsync(existingSale, cancellationToken);
+
+        return _mapper.Map<SaleResult>(sale);
     }
 }

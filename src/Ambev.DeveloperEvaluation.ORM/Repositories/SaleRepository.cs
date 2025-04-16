@@ -52,7 +52,9 @@ public class SaleRepository : ISalesRepository
         int skip = (queryFilter.PageNumber - 1) * queryFilter.PageSize;
         query = query.Skip(skip).Take(queryFilter.PageSize);
 
-        return await query.ToListAsync(cancellationToken);
+        return await query
+            .Include(c => c.SaleItems)
+            .ToListAsync(cancellationToken);
     }
 
     /// <summary>
@@ -63,7 +65,18 @@ public class SaleRepository : ISalesRepository
     /// <returns>The sale entity if found, or null otherwise.</returns>
     public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Sales.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+        return await _context.Sales
+            .Include(c => c.SaleItems)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+    }
+
+    public async Task<Sale?> GetBySaleNumberAsync(string saleNumber, CancellationToken cancellationToken = default)
+    {
+        return await _context.Sales
+            .Include(c => c.SaleItems)
+            .FirstOrDefaultAsync(o => o.SaleNumber == saleNumber, cancellationToken);
+        
     }
 
     /// <summary>
@@ -72,10 +85,9 @@ public class SaleRepository : ISalesRepository
     /// <param name="sale">The sale entity with updated information.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>The updated sale entity.</returns>
-    public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
     {
         _context.Sales.Update(sale);
         await _context.SaveChangesAsync(cancellationToken);
-        return sale;
     }
 }

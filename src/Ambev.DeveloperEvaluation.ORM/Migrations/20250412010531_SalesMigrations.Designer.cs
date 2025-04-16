@@ -33,10 +33,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("BranchId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("BranchName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -45,10 +45,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<Guid>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("CustomerName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsCancelled")

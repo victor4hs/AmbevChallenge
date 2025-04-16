@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale.CreateSaleItem;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using MediatR;
@@ -24,22 +25,22 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     /// <summary>
     /// The date and time when the sale was made.
     /// </summary>
-    public DateTime? SaleDate { get; private set; }
+    public DateTime? SaleDate { get; set; }
 
     /// <summary>
     /// Identifier of the customer who made the purchase.
     /// </summary>
-    public Guid CustomerId { get; private set; }
+    public Guid CustomerId { get; set; }
 
     /// <summary>
     /// Identifier of the branch where the sale was made.
     /// </summary>
-    public Guid BranchId { get; private set; }
+    public Guid BranchId { get; set; }
 
     /// <summary>
     /// The collection of items included in the sale.
     /// </summary>
-    public ICollection<SaleItem> SaleItems { get; private set; }
+    public ICollection<CreateSaleItemCommand> SaleItems { get; set; }
 
     /// <summary>
     /// Validates the command using the <see cref="CreateSaleCommandValidator"/>.

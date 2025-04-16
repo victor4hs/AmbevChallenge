@@ -59,4 +59,14 @@ public class GetAllSalesQuery
     /// </summary>
     /// <value>A GUID that uniquely identifies the created user in the system.</value>
     public string SortOrder { get; set; } = "desc";
+
+    /// <summary>
+    /// Gets or sets the page number for pagination.
+    /// </summary>
+    public int PageNumber { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets the page size for pagination.
+    /// </summary>
+    public int PageSize { get; set; } = 1000;
 }

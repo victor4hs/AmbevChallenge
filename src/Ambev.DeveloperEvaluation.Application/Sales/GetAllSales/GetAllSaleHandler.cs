@@ -46,7 +46,7 @@ public class GetAllSaleHandler : IRequestHandler<GetAllSaleCommand, List<SaleRes
     /// </exception>
     public async Task<List<SaleResult>> Handle(GetAllSaleCommand request, CancellationToken cancellationToken)
     {
-        var filter = _mapper.Map<SaleQueryFilter>(request);
+        var filter = _mapper.Map<SaleQueryFilter>(request.GetAllSalesQuery);
 
         var sale = await _salesRepository.GetAllAsync(filter, cancellationToken);
         if (sale == null || sale.Count() == 0)

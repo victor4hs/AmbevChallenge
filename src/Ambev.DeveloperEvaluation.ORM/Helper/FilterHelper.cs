@@ -57,8 +57,6 @@ public class FilterHelper
         return sortBy.ToLower() switch
         {
             "saledate" => isDescending ? query.OrderByDescending(x => x.SaleDate) : query.OrderBy(x => x.SaleDate),
-            "customername" => isDescending ? query.OrderByDescending(x => x.CustomerName) : query.OrderBy(x => x.CustomerName),
-            "branchname" => isDescending ? query.OrderByDescending(x => x.BranchName) : query.OrderBy(x => x.BranchName),
             "totalamount" => isDescending ? query.OrderByDescending(x => x.TotalAmount) : query.OrderBy(x => x.TotalAmount),
             _ => query.OrderByDescending(x => x.SaleDate),
         };

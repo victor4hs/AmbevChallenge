@@ -19,10 +19,8 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
     /// </remarks>
     public CreateSaleCommandValidator()
     {
-        // Ensures that the BranchId is provided.
         RuleFor(sale => sale.BranchId).NotEmpty();
-
-        // Ensures that the CustomerId is provided.
         RuleFor(sale => sale.CustomerId).NotEmpty();
+        RuleForEach(sales => sales.SaleItems).SetValidator(new CreateSaleItemCommandValidator());
     }
 }

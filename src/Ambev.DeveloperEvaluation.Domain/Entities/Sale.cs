@@ -24,7 +24,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// The customer who made the purchase.
         /// </summary>
-        public string CustomerName { get; private set; }
+        public string? CustomerName { get; private set; }
 
         /// <summary>
         /// Identifier of the customer who made the purchase.
@@ -34,7 +34,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// The branch where the sale was made.
         /// </summary>
-        public string BranchName { get; private set; }
+        public string? BranchName { get; private set; }
 
         /// <summary>
         /// Identifier of the branch where the sale was made.
@@ -105,13 +105,10 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
                 }
             }
         }
-        public ValidationResult SetSale(ICollection<SaleItem> items)
+        public void SetSaleRules()
         {
-            SaleItems = items;
             GenerateSaleNumber();
-            CalculateTotalAmount();
             SaleDate = DateTime.Now;
-            return Validate();
         }
 
         private void GenerateSaleNumber()
@@ -123,6 +120,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public void CalculateTotalAmount()
         {
+            if(SaleItems == null || SaleItems.Count == 0)
+            {
+                TotalAmount = 0;
+                return;
+            }
             var total = 0m;
             foreach (var item in SaleItems.Where(x => !x.IsCancelled))
             {
@@ -132,6 +134,20 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             TotalAmount = total;
             if (total == 0)
                 Cancel();
+        }
+
+        public void UpdateFrom(Sale updatedSale)
+        {
+            if (updatedSale == null)
+                throw new ArgumentNullException(nameof(updatedSale));
+
+            SaleDate = updatedSale.SaleDate;
+            CustomerId = updatedSale.CustomerId;
+            CustomerName = updatedSale.CustomerName;
+            BranchId = updatedSale.BranchId;
+            BranchName = updatedSale.BranchName;
+            TotalAmount = updatedSale.TotalAmount;
+            IsCancelled = updatedSale.IsCancelled;
         }
     }
 }
