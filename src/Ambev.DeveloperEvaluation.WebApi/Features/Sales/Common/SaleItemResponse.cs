@@ -8,11 +8,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
 public class SaleItemResponse
 {
     /// <summary>
-    /// The unique identifier of the sale item.
-    /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// The unique identifier of the sale to which this item belongs.
     /// </summary>
     public Guid SaleId { get; set; }
