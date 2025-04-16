@@ -50,10 +50,10 @@ public class UpdateSaleItemHandler : IRequestHandler<UpdateSaleItemCommand, Sale
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var saleItem = _mapper.Map<SaleItem>(command);
+        var existingSaleItem = await _salesItemRepository.GetByIdAsync(command.Id, cancellationToken) 
+            ?? throw new KeyNotFoundException($"SaleItem with ID {command.Id} not found.");
 
-        var existingSaleItem = await _salesItemRepository.GetByIdAsync(saleItem.Id, cancellationToken) 
-            ?? throw new KeyNotFoundException($"SaleItem with ID {saleItem.Id} not found");
+        var saleItem = _mapper.Map<SaleItem>(command);
 
         if (saleItem.IsCancelled)
         {
@@ -63,7 +63,7 @@ public class UpdateSaleItemHandler : IRequestHandler<UpdateSaleItemCommand, Sale
         existingSaleItem.UpdateFrom(saleItem);
 
         var existingSale = await _salesRepository.GetByIdAsync(existingSaleItem.SaleId, cancellationToken)
-            ?? throw new KeyNotFoundException($"SaleItem with ID {saleItem.Id} not found");
+            ?? throw new KeyNotFoundException($"Sale with ID {saleItem.Id} not found.");
 
         var salesItemUpdate = existingSale.SaleItems
             .Where(x => x.Id != existingSaleItem.Id).ToList();

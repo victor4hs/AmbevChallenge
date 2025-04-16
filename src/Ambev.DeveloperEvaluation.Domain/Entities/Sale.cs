@@ -71,17 +71,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <param name="totalAmount">The total amount of the sale.</param>
         /// <param name="isCancelled">Indicates if the sale is cancelled.</param>
         /// <param name="items">The collection of items in the sale.</param>
-        public Sale(string saleNumber, DateTime saleDate, Guid customerId, string customerName,
-                    Guid branchId, string branchName, decimal totalAmount,
-                    bool isCancelled, ICollection<SaleItem> items)
+        public Sale(DateTime saleDate, Guid customerId, string? customerName,
+                    Guid branchId, string? branchName, bool isCancelled, ICollection<SaleItem> items)
         {
-            SaleNumber = saleNumber;
             SaleDate = saleDate;
             CustomerId = customerId;
             CustomerName = customerName;
             BranchId = branchId;
             BranchName = branchName;
-            TotalAmount = totalAmount;
             IsCancelled = isCancelled;
             SaleItems = items;
         }

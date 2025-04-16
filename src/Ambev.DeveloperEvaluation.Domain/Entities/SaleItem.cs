@@ -71,15 +71,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <param name="totalPrice">Total price after discount.</param>
         /// <param name="isCancelled">Indicates if the item is cancelled.</param>
         public SaleItem(Guid saleId, Guid productId, string productName, decimal unitPrice,
-            int quantity, decimal discount, decimal totalPrice, bool isCancelled)
+            int quantity,bool isCancelled)
         {
             SaleId = saleId;
             ProductId = productId;
             ProductName = productName;
             UnitPrice = unitPrice;
             Quantity = quantity;
-            Discount = discount;
-            TotalPrice = totalPrice;
             IsCancelled = isCancelled;
         }
         public void UpdateFrom(SaleItem updatedItem)
@@ -89,6 +87,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Quantity = updatedItem.Quantity;
             UnitPrice = updatedItem.UnitPrice;
             IsCancelled = updatedItem.IsCancelled;
+        }
+
+        public void UpdateFrom(decimal totalPrice)
+        {
+            TotalPrice = totalPrice;
         }
 
         public ValidationResult Validate()

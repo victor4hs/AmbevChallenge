@@ -49,11 +49,10 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, SaleResult>
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
+        var existingSale = await _salesRepository.GetByIdAsync(command.Id, cancellationToken) 
+            ?? throw new KeyNotFoundException($"Sale with ID {command.Id} not found.");
+
         var sale = _mapper.Map<Sale>(command);
-
-        var existingSale = await _salesRepository.GetByIdAsync(sale.Id, cancellationToken) 
-            ?? throw new KeyNotFoundException($"Sale with ID {sale.Id} not found");
-
         sale.CalculateTotalAmount();
 
         if (sale.IsCancelled)

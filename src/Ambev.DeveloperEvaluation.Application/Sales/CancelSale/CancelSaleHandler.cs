@@ -47,10 +47,10 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, SaleResult>
 
         var sale = await _salesRepository.GetByIdAsync(request.Id, cancellationToken);
         if (sale == null)
-            throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
+            throw new KeyNotFoundException($"Sale with ID {request.Id} not found.");
 
         if (sale.IsCancelled)
-            throw new KeyNotFoundException($"Sale with ID {request.Id} already canceled");
+            throw new KeyNotFoundException($"Sale with ID {request.Id} already canceled.");
 
         sale.Cancel();
         await _salesRepository.UpdateAsync(sale, cancellationToken);
