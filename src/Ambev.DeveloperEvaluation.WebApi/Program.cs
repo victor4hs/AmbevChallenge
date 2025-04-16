@@ -4,7 +4,7 @@ using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
-using Ambev.DeveloperEvaluation.ORM.Context.PostgreSQL;
+using Ambev.DeveloperEvaluation.ORM.Context;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +30,7 @@ public class Program
             builder.Services.AddSwaggerGen();
 
             //Configure postgresql
-            builder.Services.AddDbContext<PostgreSQLContext>(options =>
+            builder.Services.AddDbContext<Context>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("PostgresStringConnection"),
                     b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
@@ -67,7 +67,7 @@ public class Program
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<PostgreSQLContext>();
+                    var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
                     dbContext.Database.Migrate();
                 }
                 catch (Exception ex)

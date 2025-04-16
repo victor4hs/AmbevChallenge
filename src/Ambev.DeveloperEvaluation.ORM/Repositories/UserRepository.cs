@@ -1,6 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.ORM.Context.PostgreSQL;
+using Ambev.DeveloperEvaluation.ORM.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
@@ -10,13 +10,13 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 /// </summary>
 public class UserRepository : IUserRepository
 {
-    private readonly PostgreSQLContext _context;
+    private readonly Context.Context _context;
 
     /// <summary>
     /// Initializes a new instance of UserRepository
     /// </summary>
     /// <param name="context">The database context</param>
-    public UserRepository(PostgreSQLContext context)
+    public UserRepository(Context.Context context)
     {
         _context = context;
     }

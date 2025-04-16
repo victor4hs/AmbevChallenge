@@ -1,7 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
-using Ambev.DeveloperEvaluation.ORM.Context.PostgreSQL;
+using Ambev.DeveloperEvaluation.ORM.Context;
 using Ambev.DeveloperEvaluation.ORM.Helper;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +12,13 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 /// </summary>
 public class SaleRepository : ISalesRepository
 {
-    private readonly PostgreSQLContext _context;
+    private readonly Context.Context _context;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SaleRepository"/> class.
     /// </summary>
     /// <param name="context">The database context.</param>
-    public SaleRepository(PostgreSQLContext context)
+    public SaleRepository(Context.Context context)
     {
         _context = context;
     }
