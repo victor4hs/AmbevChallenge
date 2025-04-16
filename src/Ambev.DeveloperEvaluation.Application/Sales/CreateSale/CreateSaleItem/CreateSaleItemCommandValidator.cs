@@ -20,8 +20,11 @@ public class CreateSaleItemCommandValidator : AbstractValidator<CreateSaleItemCo
     /// </remarks>
     public CreateSaleItemCommandValidator()
     {
-        RuleFor(sale => sale.Quantity).LessThanOrEqualTo(20).WithMessage("Maximum 20 items per product");
-        RuleFor(sale => sale.UnitPrice).GreaterThanOrEqualTo(0).WithMessage("Unit price must be greater than zero");
         RuleFor(sale => sale.ProductId).NotEmpty();
+        RuleFor(sale => sale.UnitPrice)
+            .GreaterThan(0).WithMessage("Unit price must be greater than zero");
+        RuleFor(sale => sale.Quantity)
+            .GreaterThan(0).WithMessage("Quantity must be greater than zero")
+            .LessThanOrEqualTo(20).WithMessage("Quantity must not exceed 20");
     }
 }

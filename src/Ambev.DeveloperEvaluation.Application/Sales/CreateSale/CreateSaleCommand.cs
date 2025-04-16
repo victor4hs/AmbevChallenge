@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale.CreateSaleItem;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSale.CreateSaleItem;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
@@ -20,7 +21,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 /// <see cref="AbstractValidator{T}"/> to ensure that the fields are correctly 
 /// populated and follow the required rules.
 /// </remarks>
-public class CreateSaleCommand : IRequest<CreateSaleResult>
+public class CreateSaleCommand : IRequest<SaleResult>
 {
     /// <summary>
     /// The date and time when the sale was made.

@@ -4,13 +4,14 @@ using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Events;
+using Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
 /// <summary>
 /// Handler for processing <see cref="CreateSaleCommand"/> requests.
 /// </summary>
-public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
+public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, SaleResult>
 {
     private readonly ISalesRepository _salesRepository;
     private readonly IMapper _mapper;
@@ -38,12 +39,12 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains 
-    /// the <see cref="CreateSaleResult"/> with the details of the created sale.
+    /// the <see cref="SaleResult"/> with the details of the created sale.
     /// </returns>
     /// <exception cref="ValidationException">
     /// Thrown when the command validation fails.
     /// </exception>
-    public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
+    public async Task<SaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
     {
         var validator = new CreateSaleCommandValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -57,6 +58,6 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         var createdSale = await _salesRepository.CreateAsync(sale, cancellationToken);
         await _eventPublisher.Publish(new SaleCreatedEvent(sale));
 
-        return _mapper.Map<CreateSaleResult>(createdSale);
+        return _mapper.Map<SaleResult>(createdSale);
     }
 }

@@ -22,7 +22,6 @@ public class CreateSaleProfile : Profile
         CreateMap<CreateSaleItemRequest, CreateSaleItemCommand>();
         CreateMap<SaleResult, SaleResponse>();
         CreateMap<SaleItemResult, SaleItemResponse>();
-        CreateMap<CreateSaleResult, SaleResponse>();
         CreateMap<CreateSaleItemResult, SaleItemResponse>()
             .ForMember(
                 dest => dest.Product, 

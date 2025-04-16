@@ -2,6 +2,7 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale.CreateSaleItem;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
@@ -17,7 +18,7 @@ public class CreateSaleProfile : Profile
     {
         CreateMap<CreateSaleCommand, Sale>();
         CreateMap<CreateSaleItemCommand, SaleItem>();
-        CreateMap<Sale, CreateSaleResult>();
+        CreateMap<Sale, SaleResult>();
         CreateMap<SaleItem, CreateSaleItemResult>();
         CreateMap<UpdateSaleCommand, Sale>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

@@ -31,6 +31,11 @@ public class SaleItemResponse
     public decimal TotalPrice { get; set; }
 
     /// <summary>
+    /// The unit price of this sale item
+    /// </summary>
+    public decimal UnitPrice { get; set; }
+
+    /// <summary>
     /// Indicates whether this sale item has been cancelled.
     /// </summary>
     public bool IsCancelled { get; set; }
