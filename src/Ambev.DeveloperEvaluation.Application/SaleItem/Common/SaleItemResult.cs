@@ -31,6 +31,11 @@ public class SaleItemResult
     public decimal Discount { get; set; }
 
     /// <summary>
+    /// The price unit
+    /// </summary>
+    public decimal UnitPrice { get; set; }
+
+    /// <summary>
     /// The total price of this sale item after applying the discount.
     /// </summary>
     public decimal TotalPrice { get; set; }
