@@ -1,51 +1,81 @@
-# Sales Records API
+# 💼 Sales API
 
 An API for complete management (CRUD) of sales records. The API is designed to store and provide sales data, including the following:
 
-## Features
+## ✨ Features
 
-### Sales Data
-- Sale number
-- Sale date
-- Customer information
-- Total sale amount
-- Branch where the sale occurred
-- Products
-- Quantities
-- Unit prices
-- Discounts
-- Total amount per item
+### 📦 Endpoints
+
+#### 📄 Sales
+
+- **`POST /Sales`**  
+  🆕 Create a new sale.
+
+- **`PUT /Sales`**  
+  🛠️ Update an existing sale.
+
+- **`GET /Sales`**  
+  📄 Get a list of all sales.
+
+- **`GET /Sales/{id}`**  
+  🔍 Get details of a specific sale by ID.
+
+- **`PUT /Sales/{id}/cancel`**  
+  ❌ Cancel a specific sale by ID.
+
+### 🧾 SalesItem
+
+- **`PUT /SalesItem`**  
+  🛠️ Update a sales item.
+
+- **`GET /SalesItem/{id}`**  
+  🔍 Get details of a specific sales item by ID.
+
+- **`PUT /SalesItem/{id}/cancel`**  
+  ❌ Cancel a specific sales item by ID.
+
+### 📊 Sales Data
+- Sale number  
+- Sale date  
+- Customer information  
+- Total sale amount  
+- Branch where the sale occurred  
+- Products  
+- Quantities  
+- Unit prices  
+- Discounts  
+- Total amount per item  
 - Cancellation status (Cancelled or Not Cancelled)
 
-### Event Publishing (Differential)
-- `SaleCreated` - Event triggered when a sale is created.
-- `SaleModified` - Event triggered when a sale is modified.
-- `SaleCancelled` - Event triggered when a sale is cancelled.
-- `ItemCancelled` - Event triggered when an item is cancelled.
+### 📡 Event Publishing (Differential)
+- `SaleCreated` – Event triggered when a sale is created.  
+- `SaleModified` – Event triggered when a sale is modified.  
+- `SaleCancelled` – Event triggered when a sale is cancelled.  
+- `ItemCancelled` – Event triggered when an item is cancelled.
 
 ---
 
-## Business Rules
+## 📐 Business Rules
 
-1. **Quantity-based Discounts:**
+1. **🎯 Quantity-based Discounts:**
    - 4+ items: 10% discount
    - 10–20 items: 20% discount
 
-2. **Restrictions:**
+2. **🚫 Restrictions:**
    - Maximum of 20 items per product
    - No discounts for purchases with less than 4 items
 
 ---
 
-## Technologies Used
-- **.NET Core 8.0**: Framework for building the API.
-- **C#**: Primary programming language.
-- **Database**: PostgreSQL.
-- **Swagger**: For interactive API documentation.
+## 🛠️ Technologies Used
+- **.NET Core 8.0**: Framework for building the API  
+- **C#**: Primary programming language  
+- **PostgreSQL**: Database  
+- **Swagger**: For interactive API documentation
 
 ---
 
-## How to Run the Project
+## 🚀 How to Run the Project
 
 1. Clone this repository:
    ```bash
@@ -53,50 +83,50 @@ An API for complete management (CRUD) of sales records. The API is designed to s
    cd AmbevChallenge
    ```
 
-2. Run with Docker Composee
-	```
-	docker-compose -p AmbevChallenge up -d
-	```
+2. Run with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
 
-3. For Kubernetes deployment
-	```
-	kubectl apply -f ./docker/kubernetes/
-	```
+3. For Kubernetes deployment:
+   ```bash
+   kubectl apply -f ./docker/kubernetes/
+   ```
 
-## Local Development
+## 💻 Local Development
 
 Navigate to the project folder:
-   ```bash
-   cd src/Ambev.DeveloperEvaluation.WebApi
-   ```
-   
+```bash
+cd src/Ambev.DeveloperEvaluation.WebApi
+```
+
 Restore dependencies:
-   ```bash
-   dotnet restore
-   ```
+```bash
+dotnet restore
+```
 
 Run the application:
-   ```bash
-   dotnet run
-   ```
+```bash
+dotnet run
+```
 
 Access the API documentation at:
-   ```
-   http://localhost:<port>/swagger
-   ```
-	
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a branch for your feature (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Open a Pull Request
+```
+http://localhost:<port>/swagger
+```
 
 ---
 
-## License
+## 🤝 Contributing
+
+1. Fork the repository  
+2. Create a branch for your feature (`git checkout -b feature/new-feature`)  
+3. Commit your changes (`git commit -m 'Add new feature'`)  
+4. Push to the branch (`git push origin feature/new-feature`)  
+5. Open a Pull Request  
+
+---
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
